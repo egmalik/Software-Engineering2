@@ -20,7 +20,7 @@ public class ChatClientCLI {
 	public void loop() throws IOException {
 		loopThread = new Thread(new Runnable() {
 
-			@Override
+			//@Override
 			public void run() {
 				BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 				String message;
@@ -32,10 +32,17 @@ public class ChatClientCLI {
 						if (message.isBlank())
 							continue;
 
-						if (message.equalsIgnoreCase("exit")) {
+						if (message.equalsIgnoreCase("exit")||message.substring(0, 5).equals("#exit")) {
 							System.out.println("Closing connection.");
 								client.closeConnection();
 						} else {
+							
+							if(message.equals("#sendSubmitters")) {
+								message = "malik, Tarik, Ahmad";
+							}else if (message.substring(0, 5).equals("#send")) {
+								message = message.substring(5, message.length()-1);
+							}
+
 							client.sendToServer(message);
 						}
 					} catch (IOException e1) {
